@@ -6,14 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-<h1>Book database:</h1>
-<table>
-    {% for item in object_list %}
-    <tr>
-        <td><i>{{ item.title }}</i></td>
-        <td>by {{ item.authors }}</td>
-    </tr>
-    {% endfor %}
-</table>
+    {% block content %}{% endblock %}
 </body>
 </html>
