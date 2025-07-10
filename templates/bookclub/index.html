@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+<h1>Book database:</h1>
+<table>
+    {% for item in object_list %}
+    <tr>
+        <td><i>{{ item.title }}</i></td>
+        <td>by {{ item.authors }}</td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
