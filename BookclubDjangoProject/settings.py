@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookclubproject.apps.BookclubprojectConfig',
-    'django.contrib.admin'
+    'django.contrib.admin',
+    'accounts.apps.AccountsConfig'
 ]
 
 MIDDLEWARE = [
