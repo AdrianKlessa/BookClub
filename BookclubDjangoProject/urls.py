@@ -20,6 +20,7 @@ from django.shortcuts import redirect
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("accounts/", include("django.contrib.auth.urls")),
     path("bookclub/", include("bookclubproject.urls")),
     path('', lambda req: redirect('/bookclub/')),
 ]
