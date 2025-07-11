@@ -10,6 +10,14 @@
 <div>
     <a class="button" href='{% url "index" %}'>All books</a>
     <a class="button" href='{% url "new" %}'>New</a>
+
+    {% block user_login_header %}
+    {% if user.is_authenticated %}
+    Logged in: {{ user.username }}
+    {% else %}
+    <a href="{% url 'login' %}">Log In</a>
+    {% endif %}
+    {% endblock %}
 </div>
     {% block content %}{% endblock %}
 </body>
