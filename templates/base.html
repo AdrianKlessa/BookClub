@@ -13,9 +13,13 @@
 
     {% block user_login_header %}
     {% if user.is_authenticated %}
-    Logged in: {{ user.username }}
+        {{ user.username }}
+        <form action="{% url 'logout' %}" method="post" style="display: inline">
+            {% csrf_token %}
+            <button type="submit">Log Out</button>
+        </form>
     {% else %}
-    <a href="{% url 'login' %}">Log In</a>
+        <a href="{% url 'login' %}">Log In</a>
     {% endif %}
     {% endblock %}
 </div>
