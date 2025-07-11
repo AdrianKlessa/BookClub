@@ -1,8 +1,6 @@
 from django.core.management.base import BaseCommand
 from bookclubproject import models
 
-# Load the dataset from https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks as an example
-
 class Command(BaseCommand):
     help = "Remove all books from database"
 
