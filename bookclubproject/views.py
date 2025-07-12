@@ -2,6 +2,7 @@ from datetime import date as date
 from datetime import timedelta
 
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.views.generic import ListView
 from django.template import loader
 from .models import Book
@@ -19,7 +20,7 @@ class NewBooks(ListView):
 
 
 def book_details(request, id):
-    book = Book.objects.get(id=id)
+    book = get_object_or_404(Book, id=id)
     template = loader.get_template('bookclub/book_details.html')
     context = {
         'book': book,
