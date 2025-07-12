@@ -18,7 +18,7 @@ class Book(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    favorite_books = models.ManyToManyField(Book, related_name='favorited_by')
-    books_to_read = models.ManyToManyField(Book, related_name='added_to_reading_list_by')
+    favorite_books = models.ManyToManyField(Book, related_name='favorited_by', blank=True)
+    books_to_read = models.ManyToManyField(Book, related_name='added_to_reading_list_by', blank=True)
     def __str__(self):
         return self.user.username
