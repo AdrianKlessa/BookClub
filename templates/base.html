@@ -8,8 +8,9 @@
 </head>
 <body>
 <div>
-    <a class="button" href='{% url "index" %}'>All books</a>
+    <a class="button" href='{% url "index" %}'>All</a>
     <a class="button" href='{% url "new" %}'>New</a>
+    <a class="button" href='{% url "book_search" %}'>Search</a>
 
     {% block user_login_header %}
     {% if user.is_authenticated %}

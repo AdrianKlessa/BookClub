@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Search by title</h2>
+<form method="GET" action="" >
+    <input type="search" name="search">
+    <button type="submit"> Search </button>
+</form>
+<h2>Results:</h2>
+<table>
+    {% for item in object_list %}
+    <tr>
+        <td><a href="book_details/{{ item.id }}"><i>{{ item.title }}</i></a></td>
+        <td>by {{ item.authors }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

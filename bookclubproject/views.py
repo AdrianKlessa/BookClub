@@ -18,6 +18,19 @@ class NewBooks(ListView):
     def get_queryset(self):
         return Book.objects.order_by("-published_date")[:30]
 
+class BookSearchView(ListView):
+    model = Book
+    template_name = "bookclub/book_search.html"
+
+    def get_queryset(self):
+        result = super(BookSearchView, self).get_queryset()
+        query = self.request.GET.get('search')
+        if query:
+            postresult = Book.objects.filter(title__contains=query)
+            result = postresult
+        else:
+            result = None
+        return result
 
 def book_details(request, id):
     book = get_object_or_404(Book, id=id)
