@@ -4,7 +4,7 @@
 <table>
     {% for item in object_list %}
     <tr>
-        <td><i>{{ item.title }}</i></td>
+        <td><a href="book_details/{{ item.id }}"><i>{{ item.title }}</i></a></td>
         <td>by {{ item.authors }}</td>
     </tr>
     {% endfor %}
