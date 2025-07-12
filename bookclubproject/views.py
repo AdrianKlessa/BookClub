@@ -16,7 +16,7 @@ class NewBooks(ListView):
     template_name = "bookclub/book_list.html"
 
     def get_queryset(self):
-        return Book.objects.filter(published_date__gt=date.today() - timedelta(days=30))
+        return Book.objects.order_by("-published_date")[:30]
 
 
 def book_details(request, id):

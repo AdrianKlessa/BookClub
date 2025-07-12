@@ -8,12 +8,12 @@ def create_book(title: str, published_date: date) -> Book:
 
 class NewBooksViewTest(TestCase):
 
-    def test_todays_book(self):
-        book = create_book("Today's Book", date.today())
+    def test_only_new_books(self):
+        new_books = []
+        old_books = []
+        for i in range(30):
+            new_books.append(create_book("Today's Book", date.today()))
+        for i in range(30):
+            old_books.append(create_book("Old Book", date.today() - timedelta(days=365)))
         response = self.client.get(reverse("new"))
-        self.assertEqual(list(response.context["book_list"]), [book])
-
-    def test_old_book(self):
-        book = create_book("Old Book", date.today()-timedelta(days=365))
-        response = self.client.get(reverse("new"))
-        self.assertEqual(list(response.context["book_list"]), [])
+        self.assertEqual(list(response.context["book_list"]), new_books)
