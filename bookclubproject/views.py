@@ -19,6 +19,20 @@ class NewBooks(ListView):
     def get_queryset(self):
         return Book.objects.order_by("-published_date")[:30]
 
+class FavoriteBooks(ListView):
+    model = Book
+    template_name = "bookclub/book_list.html"
+
+    def get_queryset(self):
+        return Profile.objects.get_or_create(user=self.request.user)[0].favorite_books.all()
+
+class ReadingList(ListView):
+    model = Book
+    template_name = "bookclub/book_list.html"
+
+    def get_queryset(self):
+        return Profile.objects.get_or_create(user=self.request.user)[0].books_to_read.all()
+
 class BookSearchView(ListView):
     model = Book
     template_name = "bookclub/book_search.html"
