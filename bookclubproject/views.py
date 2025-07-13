@@ -51,10 +51,28 @@ def add_to_favorites(request, id):
     return redirect('book_details', id=id)
 
 @login_required
+def remove_from_favorites(request, id):
+    if request.method == "POST":
+        book = get_object_or_404(Book, id=id)
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        if book in profile.favorite_books.all():
+            profile.favorite_books.remove(book)
+    return redirect('book_details', id=id)
+
+@login_required
 def add_to_reading_list(request, id):
     if request.method == "POST":
         book = get_object_or_404(Book, id=id)
         profile, created = Profile.objects.get_or_create(user=request.user)
         if book not in profile.books_to_read.all():
             profile.books_to_read.add(book)
+    return redirect('book_details', id=id)
+
+@login_required
+def remove_from_reading_list(request, id):
+    if request.method == "POST":
+        book = get_object_or_404(Book, id=id)
+        profile, created = Profile.objects.get_or_create(user=request.user)
+        if book in profile.books_to_read.all():
+            profile.books_to_read.remove(book)
     return redirect('book_details', id=id)
