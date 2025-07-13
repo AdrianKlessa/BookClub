@@ -4,12 +4,21 @@
     <h5>by {{ book.authors }}</h5>
     <p>Description: {{ book.description }}</p>
     {% if user.is_authenticated %}
-      <form action="{% url 'add_to_favorites' book.id %}" method="post">
+      <form action="{% url 'add_to_favorites' book.id %}" method="post" style="display: inline">
         {% csrf_token %}
-        <button type="submit">Add to Favorites</button>
+        <button type="submit" style="display: inline">Add to Favorites</button>
       </form>
     {% else %}
       <button disabled>Add to Favorites</button>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      <form action="{% url 'add_to_reading_list' book.id %}" method="post" style="display: inline">
+        {% csrf_token %}
+        <button type="submit" style="display: inline">Add to reading list</button>
+      </form>
+    {% else %}
+      <button disabled>>Add to reading list</button>
     {% endif %}
     <p>Average goodreads rating: {{ book.avg_rating }}</p>
     <p>Published: {{ book.published_date }}</p>
