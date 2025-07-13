@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from django.template import loader
 from .models import Book, Profile
+from django.db.models import Q
 
 class AllBooks(ListView):
     model = Book
@@ -41,7 +42,7 @@ class BookSearchView(ListView):
         result = super(BookSearchView, self).get_queryset()
         query = self.request.GET.get('search')
         if query:
-            postresult = Book.objects.filter(title__contains=query)
+            postresult = Book.objects.filter(Q(title__icontains=query) | Q(authors__icontains=query))
             result = postresult
         else:
             result = None
