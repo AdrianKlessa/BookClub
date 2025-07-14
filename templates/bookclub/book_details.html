@@ -3,6 +3,7 @@
     <h2>{{ book.title }}</h2>
     <h5>by {{ book.authors }}</h5>
     <p>Description: {{ book.description }}</p>
+    <div>
     {% if user.is_authenticated %}
         {% if book in user.profile.favorite_books.all %}
             <form action="{% url 'remove_from_favorites' book.id %}" method="post" style="display: inline">
@@ -32,24 +33,33 @@
         <button disabled>Add to Favorites</button>
         <button disabled>>Add to reading list</button>
     {% endif %}
-    <p>Average goodreads rating: {{ book.avg_rating }}</p>
-    <p>Published: {{ book.published_date }}</p>
-    <p>Publisher: {{ book.publisher }}</p>
-    <p>ISBN: {{ book.isbn }}</p>
-    <p>Number of favorites: {{ book.favorited_by.count }}</p>
-    <p>Number of reading list entries: {{ book.added_to_reading_list_by.count }}</p>
-    <h3>Comments: </h3>
-    <div>
+    </div>
+        <table>
     
+        <tr><td>Average goodreads rating</td> <td>{{ book.avg_rating }}</td></tr>
+        <tr><td>Published</td> <td>{{ book.published_date }}</td></tr>
+        <tr><td>Publisher</td> <td>{{ book.publisher }}</td></tr>
+        <tr><td>ISBN</td> <td>{{ book.isbn }}</td></tr>
+        <tr><td>Number of favorites</td> <td>{{ book.favorited_by.count }}</td></tr>
+        <tr><td>Number of reading list entries</td> <td>{{ book.added_to_reading_list_by.count }}</td></tr>
+    </table>
+    <hr>
+    <div>
+
     <form method="post">
         {% csrf_token %}
         {{ comment_form.as_p }}
         <button type="submit">Submit</button>
     </form>
     </div>
-
-    {% for comment in comments %}
-        <p>{{ comment.user_profile }} ({{ comment.formatted_time }} )</p>
-        <p>{{ comment.comment }}</p>
+    <hr>
+    <h3>Comments: </h3>
+    <table>
+        {% for comment in comments %}
+            <tr><td>
+                <p>{{ comment.user_profile }} ({{ comment.formatted_time }} )</p>
+                <p>{{ comment.comment }}</p>
+            </td></tr>
     {% endfor %}
+    </table>
 {% endblock %}
