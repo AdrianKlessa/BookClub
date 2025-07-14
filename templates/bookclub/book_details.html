@@ -56,10 +56,13 @@
     <h3>Comments: </h3>
     <table>
         {% for comment in comments %}
+            {% if not comment.hidden %}
+            
             <tr><td>
                 <p>{{ comment.user_profile }} ({{ comment.formatted_time }} )</p>
                 <p>{{ comment.comment }}</p>
             </td></tr>
+            {% endif %}
     {% endfor %}
     </table>
 {% endblock %}
