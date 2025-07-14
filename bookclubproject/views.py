@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from django.template import loader
 from .models import Book, Profile, BookComment
+from .forms import BookCommentForm
 from django.db.models import Q
 
 class AllBooks(ListView):
@@ -50,11 +51,24 @@ class BookSearchView(ListView):
 
 def book_details(request, id):
     book = get_object_or_404(Book, id=id)
+
+    if request.method == 'POST':
+        form = BookCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            user_profile, created = Profile.objects.get_or_create(user=request.user)
+            comment.user_profile = user_profile
+            comment.book = book
+            comment.save()
+
+
+    comment_form = BookCommentForm()
     comments = BookComment.objects.filter(book=book).order_by('-published_datetime').all()
     template = loader.get_template('bookclub/book_details.html')
     context = {
         'book': book,
         'comments': comments,
+        'comment_form': comment_form,
     }
     return HttpResponse(template.render(context, request))
 
