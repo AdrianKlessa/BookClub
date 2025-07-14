@@ -38,4 +38,10 @@
     <p>ISBN: {{ book.isbn }}</p>
     <p>Number of favorites: {{ book.favorited_by.count }}</p>
     <p>Number of reading list entries: {{ book.added_to_reading_list_by.count }}</p>
+    <h3>Comments: </h3>
+
+    {% for comment in comments %}
+        <p>{{ comment.user_profile }} ({{ comment.published_datetime }} )</p>
+        <p>{{ comment.comment }}</p>
+    {% endfor %}
 {% endblock %}

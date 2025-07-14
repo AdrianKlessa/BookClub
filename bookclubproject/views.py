@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import ListView
 from django.template import loader
-from .models import Book, Profile
+from .models import Book, Profile, BookComment
 from django.db.models import Q
 
 class AllBooks(ListView):
@@ -50,9 +50,11 @@ class BookSearchView(ListView):
 
 def book_details(request, id):
     book = get_object_or_404(Book, id=id)
+    comments = BookComment.objects.filter(book=book).order_by('-published_datetime').all()
     template = loader.get_template('bookclub/book_details.html')
     context = {
         'book': book,
+        'comments': comments,
     }
     return HttpResponse(template.render(context, request))
 
