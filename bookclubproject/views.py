@@ -60,7 +60,7 @@ def book_details(request, id):
             comment.user_profile = user_profile
             comment.book = book
             comment.save()
-
+            return redirect('book_details', id=id)
 
     comment_form = BookCommentForm()
     comments = BookComment.objects.filter(book=book).order_by('-published_datetime').all()
