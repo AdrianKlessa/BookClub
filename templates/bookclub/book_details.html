@@ -41,7 +41,7 @@
     <h3>Comments: </h3>
 
     {% for comment in comments %}
-        <p>{{ comment.user_profile }} ({{ comment.published_datetime }} )</p>
+        <p>{{ comment.user_profile }} ({{ comment.formatted_time }} )</p>
         <p>{{ comment.comment }}</p>
     {% endfor %}
 {% endblock %}

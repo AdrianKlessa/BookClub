@@ -33,3 +33,6 @@ class BookComment(models.Model):
 
     def __str__(self):
         return self.user_profile.user.username+": "+self.comment
+
+    def formatted_time(self):
+        return self.published_datetime.strftime("%Y-%m-%d %H:%M:%S UTC")
