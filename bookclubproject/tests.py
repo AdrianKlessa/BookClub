@@ -55,10 +55,11 @@ class BookSearchViewTest(TestCase):
         self.assertNotIn(book3, books)
 
 class FavoritesTest(TestCase):
-    def test_add_to_favorites(self):
-        user = User.objects.create_user(username='testuser', password='12345')
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='12345')
         login = self.client.login(username='testuser', password='12345')
 
+    def test_add_to_favorites(self):
         book1 = create_book("Sherlock Holmes and XYZ", date.today())
         book2 = create_book("Sherlock Holmes and ZYX", date.today())
 
@@ -68,19 +69,16 @@ class FavoritesTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('book_details', args=[book1.id]))
 
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.user)
         self.assertIn(book1, profile.favorite_books.all())
         self.assertNotIn(book2, profile.favorite_books.all())
 
     def test_remove_from_favorites(self):
-        user = User.objects.create_user(username='testuser', password='12345')
-        login = self.client.login(username='testuser', password='12345')
-
         book1 = create_book("Sherlock Holmes and XYZ", date.today())
         book2 = create_book("Sherlock Holmes and ZYX", date.today())
         book3 = create_book("Another book", date.today())
 
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.user)
         profile.favorite_books.add(book1)
         profile.favorite_books.add(book2)
 
@@ -95,15 +93,11 @@ class FavoritesTest(TestCase):
         self.assertNotIn(book3, profile.favorite_books.all())
 
     def test_list_favorites(self):
-        user = User.objects.create_user(username='testuser', password='12345')
-
-        login = self.client.login(username='testuser', password='12345')
-
         book1 = create_book("Sherlock Holmes and XYZ", date.today())
         book2 = create_book("Sherlock Holmes and ZYX", date.today())
         book3 = create_book("Another book", date.today())
 
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.user)
         profile.favorite_books.add(book1)
         profile.favorite_books.add(book2)
 
@@ -111,10 +105,12 @@ class FavoritesTest(TestCase):
         self.assertEqual(list(response.context["book_list"]), [book1, book2])
 
 class ReadingListTest(TestCase):
-    def test_add_to_reading_list(self):
-        user = User.objects.create_user(username='testuser', password='12345')
+
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='12345')
         login = self.client.login(username='testuser', password='12345')
 
+    def test_add_to_reading_list(self):
         book1 = create_book("Sherlock Holmes and XYZ", date.today())
         book2 = create_book("Sherlock Holmes and ZYX", date.today())
 
@@ -124,19 +120,16 @@ class ReadingListTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, reverse('book_details', args=[book1.id]))
 
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.user)
         self.assertIn(book1, profile.books_to_read.all())
         self.assertNotIn(book2, profile.books_to_read.all())
 
     def test_remove_from_reading_list(self):
-        user = User.objects.create_user(username='testuser', password='12345')
-        login = self.client.login(username='testuser', password='12345')
-
         book1 = create_book("Sherlock Holmes and XYZ", date.today())
         book2 = create_book("Sherlock Holmes and ZYX", date.today())
         book3 = create_book("Another book", date.today())
 
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.user)
         profile.books_to_read.add(book1)
         profile.books_to_read.add(book2)
 
@@ -151,15 +144,11 @@ class ReadingListTest(TestCase):
         self.assertNotIn(book3, profile.books_to_read.all())
 
     def test_list_reading_list(self):
-        user = User.objects.create_user(username='testuser', password='12345')
-
-        login = self.client.login(username='testuser', password='12345')
-
         book1 = create_book("Sherlock Holmes and XYZ", date.today())
         book2 = create_book("Sherlock Holmes and ZYX", date.today())
         book3 = create_book("Another book", date.today())
 
-        profile = Profile.objects.get(user=user)
+        profile = Profile.objects.get(user=self.user)
         profile.books_to_read.add(book1)
         profile.books_to_read.add(book2)
 
