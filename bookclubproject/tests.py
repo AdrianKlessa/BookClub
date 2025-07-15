@@ -1,7 +1,8 @@
 from datetime import date, timedelta
 from django.test import TestCase
 from django.urls import reverse
-from bookclubproject.models import Book
+from bookclubproject.models import Book, User, Profile
+
 
 def create_book(title: str, published_date: date) -> Book:
     return Book.objects.create(title=title, published_date=published_date)
@@ -52,3 +53,59 @@ class BookSearchViewTest(TestCase):
         self.assertIn(book1, books)
         self.assertIn(book2, books)
         self.assertNotIn(book3, books)
+
+class FavoritesTest(TestCase):
+    def test_add_to_favorites(self):
+        user = User.objects.create_user(username='testuser', password='12345')
+        login = self.client.login(username='testuser', password='12345')
+
+        book1 = create_book("Sherlock Holmes and XYZ", date.today())
+        book2 = create_book("Sherlock Holmes and ZYX", date.today())
+
+        url = reverse('add_to_favorites', args=[book1.id])
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('book_details', args=[book1.id]))
+
+        profile = Profile.objects.get(user=user)
+        self.assertIn(book1, profile.favorite_books.all())
+        self.assertNotIn(book2, profile.favorite_books.all())
+
+    def test_remove_from_favorites(self):
+        user = User.objects.create_user(username='testuser', password='12345')
+        login = self.client.login(username='testuser', password='12345')
+
+        book1 = create_book("Sherlock Holmes and XYZ", date.today())
+        book2 = create_book("Sherlock Holmes and ZYX", date.today())
+        book3 = create_book("Another book", date.today())
+
+        profile = Profile.objects.get(user=user)
+        profile.favorite_books.add(book1)
+        profile.favorite_books.add(book2)
+
+        url = reverse('remove_from_favorites', args=[book1.id])
+        response = self.client.post(url)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('book_details', args=[book1.id]))
+
+        self.assertNotIn(book1, profile.favorite_books.all())
+        self.assertIn(book2, profile.favorite_books.all())
+        self.assertNotIn(book3, profile.favorite_books.all())
+
+    def test_list_favorites(self):
+        user = User.objects.create_user(username='testuser', password='12345')
+
+        login = self.client.login(username='testuser', password='12345')
+
+        book1 = create_book("Sherlock Holmes and XYZ", date.today())
+        book2 = create_book("Sherlock Holmes and ZYX", date.today())
+        book3 = create_book("Another book", date.today())
+
+        profile = Profile.objects.get(user=user)
+        profile.favorite_books.add(book1)
+        profile.favorite_books.add(book2)
+
+        response = self.client.get(reverse("favorites"))
+        self.assertEqual(list(response.context["book_list"]), [book1, book2])
