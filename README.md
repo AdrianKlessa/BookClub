@@ -2,6 +2,8 @@
 
 ![Test workflow](https://github.com/AdrianKlessa/BookClub/actions/workflows/django.yml/badge.svg)
 
+![img](docs/screenshots/book_details.PNG)
+
 ### Functionality
 
 For all users:
@@ -21,7 +23,7 @@ For admin (through the django admin panel):
 * Modify book/comment information
 
 <details>
-  <summary>Screenshots</summary>
+  <summary>More screenshots</summary>
 
 ![img](docs/screenshots/search.PNG)
 ![img](docs/screenshots/favorites.PNG)
