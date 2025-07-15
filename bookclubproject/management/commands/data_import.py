@@ -30,7 +30,7 @@ class Command(BaseCommand):
                     avg_rating=row[3],
                     isbn=row[4],
                     published_date=pub_date,
-                    publisher=row[10]
+                    publisher=row[11]
                 )
                 books.append(new_book)
         models.Book.objects.bulk_create(books)
