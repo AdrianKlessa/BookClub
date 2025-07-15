@@ -20,6 +20,15 @@ For admin (through the django admin panel):
 * Hide specific comments
 * Modify book/comment information
 
+<details>
+  <summary>Screenshots</summary>
+
+![img](docs/screenshots/search.PNG)
+![img](docs/screenshots/favorites.PNG)
+![img](docs/screenshots/book_details.PNG)
+![img](docs/screenshots/comments_section.PNG)
+</details>
+
 The application uses [Simple.css](https://simplecss.org/) for styling.
 
 For testing the application I've used [this dataset](https://www.kaggle.com/datasets/jealousleopard/goodreadsbooks) from Kaggle. 
